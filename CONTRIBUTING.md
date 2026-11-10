@@ -10,7 +10,7 @@ Open an [issue](https://github.com/chavarriajose/realsense-f200-processing/issue
 (you need a free GitHub account). It helps a lot to include:
 
 - the **version**: the server prints it at start, for example
-  `Depth server is running. (version 0.9.0 beta)`
+  `Depth server is running. (version 0.9.1 beta)`
 - your **computer and system**: for example "Windows 11 laptop", "MacBook
   Air M2 with macOS 15", "Ubuntu 24.04 desktop PC"
 - how the camera is **connected**: directly, or through which hub or adapter

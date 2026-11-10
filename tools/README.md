@@ -257,8 +257,8 @@ above (see `.github/workflows/build-downloads.yml`).
   **Build downloads** and click **Run workflow**. After about 10 minutes the
   three files are at the bottom of that run's page, under **Artifacts**.
   Nothing is published.
-- **For a release:** push a version tag, for example `git tag v0.9.1-beta`
-  and `git push origin v0.9.1-beta`. The files are then attached to the
+- **For a release:** push a version tag, for example `git tag v1.0.0`
+  and `git push origin v1.0.0`. The files are then attached to the
   release with that name (a draft pre-release is made if it does not exist
   yet, ready for you to write the notes and publish).
 

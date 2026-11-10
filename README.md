@@ -3,7 +3,7 @@
 Bring an old Intel RealSense F200 depth camera (also sold by Creative as
 model VF0800) back to life and use it from Processing.
 
-> **Beta, version 0.9.0.** Works on Linux, macOS and Windows. So far it has
+> **Beta, version 0.9.1.** Works on Linux, macOS and Windows. So far it has
 > been tested on one computer of each kind. Please try it and
 > [tell us how it went](CONTRIBUTING.md#report-a-problem-or-share-how-it-went),
 > good or bad.

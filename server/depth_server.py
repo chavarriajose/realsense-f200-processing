@@ -56,7 +56,7 @@ import processing_steps as steps
 # The version of the project. It is printed at start, so people can say
 # which version they use when they report a problem. Change it for every
 # release (and in CHANGELOG.md).
-VERSION = "0.9.0 beta"
+VERSION = "0.9.1 beta"
 
 SERVER_FOLDER = os.path.dirname(os.path.abspath(__file__))
 DEFAULT_CONFIG = os.path.join(SERVER_FOLDER, "config.toml")
