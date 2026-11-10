@@ -1,0 +1,26 @@
+RealSense Depth Server for Windows
+==================================
+
+This program reads the Intel RealSense F200 depth camera and sends depth
+images and simple values to your Processing sketches.
+
+1. Plug the camera into a USB 3.0 port (a USB 3.0 hub or adapter is fine).
+
+2. Double-click "RealSense Depth Server.exe" in this folder.
+   (Keep the .exe in this folder: it needs the "_internal" folder next to it.)
+
+3. The first time, Windows may show "Windows protected your PC".
+   Click "More info", then "Run anyway". This happens because the program
+   is free and not signed with a paid certificate.
+
+4. Windows may also ask whether to allow the program on networks. Allow
+   "Private networks" if sketches on other computers should connect. Sketches
+   on this same computer work either way.
+
+5. A black window opens and shows what to write at the top of your sketch,
+   usually:    String SERVER = "auto";
+
+To stop the server, close the black window or press Ctrl+C in it.
+
+The full guide, the example sketches and help with problems:
+see docs/windows/setup.md in the project on GitHub.

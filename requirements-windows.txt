@@ -1,0 +1,16 @@
+# Python packages for running the depth server on Windows (from a terminal).
+# Most people do not need this: they use the ready-made program
+# (RealSense-Depth-Server-Windows.zip) instead.
+#
+# One-time setup, from the main project folder, in PowerShell or the Command
+# Prompt (see docs/windows/setup.md). Python 3.11 or newer from python.org:
+#   py -m venv .venv
+#   .venv\Scripts\python -m pip install -r requirements-windows.txt
+#
+# No camera driver or extra camera package is needed: the server talks to
+# Windows' own video system with Python's built-in "ctypes" module.
+numpy
+# The full OpenCV (not "headless"), because tools\preview.py opens a window.
+opencv-python
+websockets
+python-osc>=1.8

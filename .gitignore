@@ -1,0 +1,10 @@
+reference/
+__pycache__/
+*.raw
+.venv/
+.tools/
+.DS_Store
+.build/
+dist/
+build/
+

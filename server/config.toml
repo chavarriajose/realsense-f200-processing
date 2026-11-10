@@ -1,0 +1,53 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# Settings for the RealSense F200 depth server.
+#
+# Change a value, save this file, and restart the server.
+# Lines starting with # are comments and are ignored.
+
+[range]
+# Only things between these two distances (in millimeters) count.
+# They appear in the "depth8" image and in the OSC values.
+# The F200 measures from about 200 mm to about 1200 mm.
+near_mm = 200
+far_mm = 1200
+
+[camera]
+# Depth resolution: 640 x 480, or 640 x 240 (faster, less detail).
+width = 640
+height = 480
+# Frames per second the camera captures: 30 or 60.
+fps = 30
+
+[network]
+# How many times per second the server sends images and values.
+# Lower numbers are easier on a busy Wi-Fi network.
+send_fps = 15
+# Port for images (WebSocket). Sketches connect to ws://<server ip>:8765
+websocket_port = 8765
+# Port where the server listens for OSC "subscribe" messages from sketches.
+osc_port = 9000
+# Announce this server on the network once per second, so sketches with
+# SERVER = "auto" find it by themselves. Sketches listen on discovery_port.
+discovery = true
+discovery_port = 8766
+# Squeeze images with zlib before sending, which makes them about 3 to 10
+# times smaller. Sketches unpack them automatically.
+compress = true
+
+[streams]
+# Which images the server is allowed to send. Each sketch still chooses which
+# of these it wants, so a stream that is "true" here is only sent to sketches
+# that ask for it.
+depth8 = true    # grayscale depth picture, ready to show
+depth16 = true   # exact distance in millimeters for every pixel
+ir = false       # infrared picture
+color = false    # color picture (not aligned with depth)
+
+[values]
+# How many pixels must be inside the range before we say someone or
+# something is "present", and the smallest blob we report.
+# 640 x 480 = 307200 pixels, so 3000 is about 1 % of the image.
+min_pixels = 3000
+# A sketch must send "/subscribe" again within this many seconds, otherwise
+# the server stops sending it OSC values (sketches do this automatically).
+subscription_timeout = 10

@@ -1,0 +1,31 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+# systemd service: starts the depth server automatically when the computer boots.
+#
+# Before installing, replace the placeholders YOUR_USER and
+# /path/to/realsense-f200-processing in the three lines below (User=,
+# WorkingDirectory= and ExecStart=) with your Linux user name
+# (type "whoami" in a terminal to see it) and the folder where you put
+# this project.
+#
+# docs/linux/setup.md explains every step, with the exact commands.
+
+[Unit]
+Description=RealSense F200 depth server
+# Start only after the network is up, so sketches can connect right away.
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+User=YOUR_USER
+# The camera's device files belong to the "video" group. At boot nobody is
+# logged in yet, so the server needs this group to open the camera.
+SupplementaryGroups=video
+WorkingDirectory=/path/to/realsense-f200-processing
+# The quotes keep this working even if the folder name contains spaces.
+ExecStart="/path/to/realsense-f200-processing/.venv/bin/python" -u server/depth_server.py
+# If the server stops for any reason, start it again after 5 seconds.
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target

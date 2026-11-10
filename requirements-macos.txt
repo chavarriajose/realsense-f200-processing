@@ -1,0 +1,13 @@
+# Python packages for running the depth server on a Mac (from a terminal).
+# Most people do not need this: they use the ready-made app instead.
+#
+# One-time setup, from the main project folder (see docs/macos/setup.md):
+#   brew install libusb
+#   python3 -m venv .venv
+#   .venv/bin/pip install -r requirements-macos.txt
+numpy
+opencv-python-headless
+websockets
+python-osc>=1.8
+# A small wrapper around the libusb library, to talk to the camera over USB.
+libusb1

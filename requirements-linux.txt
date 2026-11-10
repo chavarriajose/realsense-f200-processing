@@ -1,0 +1,6 @@
+# Python packages that are not available through apt on Ubuntu.
+# The other dependencies come from apt, see tools/README.md and docs/linux/setup.md:
+#   sudo apt install python3-opencv python3-numpy python3-websockets v4l-utils
+# Install the packages below into the virtual environment with:
+#   .venv/bin/pip install -r requirements-linux.txt
+python-osc>=1.8
