@@ -34,9 +34,9 @@ What you get:
 
 | Your camera is plugged into... | What you do | Guide |
 |--------------------------------|-------------|-------|
-| **your own Windows PC** | download `RealSense-Depth-Server-Windows.zip` from [Releases](https://github.com/chavarriajose/realsense-f200-processing/releases), extract it, double-click **RealSense Depth Server**. No driver, no password. | [docs/windows/setup.md](docs/windows/setup.md) |
-| **your own Mac** | download `RealSense-Depth-Server-macOS.zip` from [Releases](https://github.com/chavarriajose/realsense-f200-processing/releases), open the app, type your Mac password. | [docs/macos/setup.md](docs/macos/setup.md) |
-| **a Linux computer** | a few terminal commands (below), then a desktop icon or automatic start at boot. | [docs/linux/setup.md](docs/linux/setup.md) |
+| **Windows** | download `RealSense-Depth-Server-Windows.zip` from [Releases](https://github.com/chavarriajose/realsense-f200-processing/releases), extract it, double-click **RealSense Depth Server**. No driver, no password. | [docs/windows/setup.md](docs/windows/setup.md) |
+| **macOS** | download `RealSense-Depth-Server-macOS.zip` from [Releases](https://github.com/chavarriajose/realsense-f200-processing/releases), open the app, type your Mac password. | [docs/macos/setup.md](docs/macos/setup.md) |
+| **Linux** | a few terminal commands (below), then a desktop icon or automatic start at boot. | [docs/linux/setup.md](docs/linux/setup.md) |
 
 **2. Run your first sketch**: install Processing 4, open
 `processing/example01_show_depth` and press Run. The sketch finds the server
@@ -112,13 +112,7 @@ the OSC values, all five examples, and starting and stopping the server.
 RealSense F200 for Processing is made by **Jose Chavarria**.
 
 The code, the documentation and the tests were written with the help of an
-AI coding agent, **Claude Code** (by Anthropic), working under Jose's
-direction. Jose decided what to build and how it should behave, set up the
-camera and the test scenes, and tested the results on Linux, macOS and
-Windows. Along the way, every part was checked with a real camera (saved and
-inspected frames and screenshots) and by separate reviews of the code and
-the guides.
-
+AI coding agent, **Claude Code** (by Anthropic).
 If something looks wrong or could be explained better, please
 [open an issue](https://github.com/chavarriajose/realsense-f200-processing/issues).
 
