@@ -81,14 +81,13 @@ def list_formats(device):
     because it is easy to read and already needed to test the camera.
     It prints lines like:   [1]: 'Z16 ' (16-bit Depth)
     We return the four-letter codes it finds, for example ['YUYV', 'Z16 '].
+
+    The ready-made Linux download must work without installing anything, so
+    when 'v4l2-ctl' is missing we ask the video driver directly instead
+    (see list_formats_from_driver below). Both give the same answer.
     """
     if shutil.which("v4l2-ctl") is None:
-        # Without this tool we cannot tell the devices apart. Say so clearly,
-        # otherwise it would look like the camera is not plugged in.
-        raise RuntimeError(
-            "The program 'v4l2-ctl' is missing. Please install it with:\n"
-            "    sudo apt install v4l-utils"
-        )
+        return list_formats_from_driver(device)
     try:
         result = subprocess.run(
             ["v4l2-ctl", "-d", device, "--list-formats"],
@@ -103,6 +102,43 @@ def list_formats(device):
         if "'" in line:
             code = line.split("'")[1]
             formats.append(code)
+    return formats
+
+
+# Numbers from the Linux video driver's header file (linux/videodev2.h):
+# the request "tell me format number N" and the kind of device we ask about.
+VIDIOC_ENUM_FMT = 0xC0405602            # _IOWR('V', 2, struct v4l2_fmtdesc)
+V4L2_BUF_TYPE_VIDEO_CAPTURE = 1
+# struct v4l2_fmtdesc is 64 bytes: index, type, flags (3 x 4 bytes), a
+# 32-letter description, the four-letter format code, mbus_code (4 bytes)
+# and 12 reserved bytes.
+FMTDESC_LAYOUT = "<III32sII12s"
+
+
+def list_formats_from_driver(device):
+    """
+    The same as list_formats, but without 'v4l2-ctl': we ask the video
+    driver ourselves with the standard "list your formats" request (an
+    "ioctl"), one format at a time, until the driver says there are no more.
+    """
+    import fcntl    # only exists on Linux and macOS, so imported only here
+    import struct
+
+    formats = []
+    try:
+        with open(device, "rb", buffering=0) as video:
+            for index in range(64):   # a camera never has this many formats
+                request = bytearray(struct.pack(
+                    FMTDESC_LAYOUT, index, V4L2_BUF_TYPE_VIDEO_CAPTURE, 0, b"", 0, 0, b""))
+                try:
+                    fcntl.ioctl(video, VIDIOC_ENUM_FMT, request)
+                except OSError:
+                    break   # "no format with this number": we have them all
+                code = struct.unpack(FMTDESC_LAYOUT, request)[4]
+                # The format code is four letters packed into one number.
+                formats.append(struct.pack("<I", code).decode("latin-1"))
+    except OSError:
+        return []   # the device is busy or gone: treat it like "no formats"
     return formats
 
 
@@ -136,7 +172,8 @@ def find_camera():
     if depth_device is None:
         raise RuntimeError(
             "Could not find the RealSense F200 depth camera.\n"
-            "Check that it is plugged into a USB 3.0 port, then run:\n"
+            "Check that it is plugged into a USB 3.0 port. If 'v4l-utils' is\n"
+            "installed, this command lists the cameras Linux found:\n"
             "    v4l2-ctl --list-devices\n"
             "You should see a device called 'Intel(R) RealSense(TM) 3D Camer'\n"
             "(Linux cuts the name off after 31 letters, that is normal)."

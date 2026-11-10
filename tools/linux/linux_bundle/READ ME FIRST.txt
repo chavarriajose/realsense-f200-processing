@@ -1,0 +1,32 @@
+RealSense Depth Server for Linux
+===============================
+
+This program reads the Intel RealSense F200 depth camera and sends depth
+images and simple values to your Processing sketches. Nothing else needs
+to be installed: no Python, no camera driver.
+
+1. Plug the camera into a USB 3.0 port (a USB 3.0 hub or adapter is fine).
+
+2. Once: add the desktop icon. Right-click on an empty spot in this folder,
+   choose "Open in Terminal", type the line below and press Enter:
+
+       ./install-desktop-icon.sh
+
+   (Keep this folder where it is afterwards, or run the line again after
+   moving it: the icon points to this folder.)
+
+3. Double-click "RealSense Depth Server" on your desktop, or press the Super
+   key and type "depth". If Ubuntu asks, right-click the icon and choose
+   "Allow Launching" first.
+
+4. A window opens and shows what to write at the top of your sketch,
+   usually:    String SERVER = "auto";
+
+To stop the server, close the window or press Ctrl+C in it.
+
+Without the icon, you can also start it from a terminal in this folder:
+    ./start-server.sh
+
+The full guide, the example sketches and help with problems:
+see docs/linux/setup.md in the project on GitHub:
+https://github.com/chavarriajose/realsense-f200-processing

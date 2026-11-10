@@ -1,0 +1,131 @@
+# SPDX-License-Identifier: AGPL-3.0-or-later
+#
+# Builds the ready-made downloads on GitHub's own computers:
+#   Windows:  RealSense-Depth-Server-Windows.zip
+#   Mac:      RealSense-Depth-Server-macOS.zip
+#   Linux:    RealSense-Depth-Server-Linux-x64.tar.gz
+#
+# When it runs:
+#   - By hand: on GitHub, Actions > "Build downloads" > "Run workflow".
+#     The files appear at the bottom of the run's page ("Artifacts"), for
+#     testing. Nothing is published.
+#   - When a version tag (for example v0.9.1-beta) is pushed: the files are
+#     also attached to the release with that name. If that release does not
+#     exist yet, a draft pre-release is made, which the author checks,
+#     completes and publishes by hand.
+#
+# Each job builds with the same script a person would use (tools/...), then
+# starts the program once as a quick test. GitHub's computers have no
+# camera, so the test only checks that the program starts and looks for the
+# camera; trying it with a real F200 stays a job for a person.
+
+name: Build downloads
+
+on:
+  workflow_dispatch:
+  push:
+    tags:
+      - "v*"
+
+jobs:
+  windows:
+    runs-on: windows-2022
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.13"
+          architecture: x64
+      - name: Build
+        shell: pwsh
+        run: |
+          $python = (Get-Command python).Source
+          powershell -NoProfile -ExecutionPolicy Bypass -File tools\windows\build_windows_exe.ps1 -Python $python
+          if ($LASTEXITCODE -ne 0) { exit 1 }
+      - name: Quick test (does the program start?)
+        shell: pwsh
+        run: |
+          $exe = "dist\RealSense Depth Server\RealSense Depth Server.exe"
+          $run = Start-Process -FilePath $exe -PassThru -NoNewWindow `
+            -RedirectStandardOutput out.txt -RedirectStandardError err.txt
+          Start-Sleep -Seconds 15
+          Stop-Process -Id $run.Id -Force -ErrorAction SilentlyContinue
+          Get-Content out.txt, err.txt
+          if (-not (Select-String -Path out.txt -Pattern "Depth server is running" -Quiet)) { exit 1 }
+      - uses: actions/upload-artifact@v4
+        with:
+          name: RealSense-Depth-Server-Windows
+          path: dist/RealSense-Depth-Server-Windows.zip
+
+  macos:
+    runs-on: macos-14
+    env:
+      # The Mac app must be "universal" (Apple Silicon and Intel), which needs
+      # the universal2 Python from python.org (see tools/macos/build_macos_app.sh).
+      PYTHON_VERSION: "3.14.10"
+    steps:
+      - uses: actions/checkout@v5
+      - name: Install the universal Python from python.org
+        run: |
+          curl -sSfL -o python.pkg "https://www.python.org/ftp/python/${PYTHON_VERSION}/python-${PYTHON_VERSION}-macos11.pkg"
+          sudo installer -pkg python.pkg -target /
+      - name: Build
+        run: tools/macos/build_macos_app.sh
+      - name: Quick test (does the program start?)
+        run: |
+          # Without administrator rights the server explains that it needs
+          # them and stops: that shows everything inside the app loads.
+          "dist/RealSense Depth Server.app/Contents/Resources/depth-server/depth-server" > out.txt 2>&1 || true
+          cat out.txt
+          grep -q "administrator rights" out.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: RealSense-Depth-Server-macOS
+          path: dist/RealSense-Depth-Server-macOS.zip
+
+  linux:
+    # An older Ubuntu, so the program also works on older Linux versions.
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v6
+        with:
+          python-version: "3.13"
+      - name: Build
+        run: PYTHON=python tools/linux/build_linux_bundle.sh
+      - name: Quick test (does the program start?)
+        run: |
+          cd "dist/RealSense Depth Server"
+          timeout 15 ./realsense-depth-server > out.txt 2>&1 || true
+          cat out.txt
+          grep -q "Depth server is running" out.txt
+          grep -q "Could not find the RealSense F200" out.txt
+      - uses: actions/upload-artifact@v4
+        with:
+          name: RealSense-Depth-Server-Linux
+          path: dist/RealSense-Depth-Server-Linux-x64.tar.gz
+
+  release:
+    # Only for version tags, and only when all three builds worked.
+    if: startsWith(github.ref, 'refs/tags/v')
+    needs: [windows, macos, linux]
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/download-artifact@v4
+        with:
+          path: downloads
+          merge-multiple: true
+      - name: Attach the files to the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.ref_name }}
+        run: |
+          ls -l downloads
+          if ! gh release view "$TAG" --repo "$GITHUB_REPOSITORY" > /dev/null 2>&1; then
+            gh release create "$TAG" --repo "$GITHUB_REPOSITORY" --draft --prerelease \
+              --title "RealSense F200 for Processing $TAG" \
+              --notes "Draft made by the build. Please write the release notes (see CHANGELOG.md), then publish."
+          fi
+          gh release upload "$TAG" downloads/* --repo "$GITHUB_REPOSITORY" --clobber
