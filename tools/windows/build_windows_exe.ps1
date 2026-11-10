@@ -118,7 +118,11 @@ Write-Host "4/5 Program folder ready"
 
 # --- 5. Zip it ---------------------------------------------------------------------
 if (Test-Path $Zip) { Remove-Item -Force $Zip }
-Compress-Archive -Path $AppFolder -DestinationPath $Zip
+# We use Python's zip tool instead of PowerShell's Compress-Archive (or
+# .NET): those write folder names with "\" inside the zip on some Windows
+# versions, which unzip programs on other systems do not understand.
+# Python always writes "/", the standard.
+Run $VenvPython @("-m", "zipfile", "-c", $Zip, $AppFolder)
 $size = [math]::Round((Get-Item $Zip).Length / 1MB)
 Write-Host "5/5 Done:"
 Write-Host "    $AppFolder\$AppName.exe"
