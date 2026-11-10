@@ -113,6 +113,7 @@ RealSense F200 for Processing is made by **Jose Chavarria**.
 
 The code, the documentation and the tests were written with the help of an
 AI coding agent, **Claude Code** (by Anthropic).
+
 If something looks wrong or could be explained better, please
 [open an issue](https://github.com/chavarriajose/realsense-f200-processing/issues).
 
@@ -126,7 +127,7 @@ never done this before.
 
 ## License
 
-Copyright (C) 2026 Jose Chavarria. In short:
+Copyright (C) 2026 Jose Chavarria. 
 
 - **The depth server, the tools and the guides** are under the
   [GNU Affero General Public License v3.0 or later](LICENSE) (AGPL-3.0).
