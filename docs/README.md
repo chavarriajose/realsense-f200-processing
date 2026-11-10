@@ -5,7 +5,7 @@ write your first sketch.
 
 | Your camera is plugged into... | Read this |
 |--------------------------------|-----------|
-| Linux | [linux/setup.md](linux/setup.md): from a fresh Ubuntu to a server that starts at boot |
+| Linux | [linux/setup.md](linux/setup.md): the ready-made download with a desktop icon, or the full setup with automatic start at boot |
 | macOS | [macos/setup.md](macos/setup.md): the Mac app, first open, password, start and stop |
 | Windows | [windows/setup.md](windows/setup.md): the Windows program, first start, firewall, start and stop |
 

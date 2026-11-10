@@ -494,6 +494,12 @@ class DepthServer:
 
 
 def main():
+    # Show every message right away, also when the output goes to a file or
+    # a log (for example the systemd service or an automatic test). Python
+    # would otherwise keep messages in memory for a while, and they would be
+    # lost if the program is stopped hard.
+    sys.stdout.reconfigure(line_buffering=True)
+
     # On a Mac the camera needs administrator rights (see capture_macos.py).
     # Without them, trying again every few seconds would never help, so we
     # explain it once and stop.

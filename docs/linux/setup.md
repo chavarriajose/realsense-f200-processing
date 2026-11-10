@@ -1,6 +1,51 @@
 # Setting up the Linux computer
 
-This guide takes you from a fresh Ubuntu installation to a running depth
+There are two ways to run the depth server on Linux:
+
+- **The quick way: the ready-made download.** Nothing to install, one
+  command once, then a desktop icon. Best if the camera is plugged into
+  your own Linux computer. See "The quick way" right below.
+- **The full setup** (the rest of this guide): installs the server from the
+  project files, and can start it automatically when the computer boots.
+  Best for a Linux computer that several people share.
+
+## The quick way: the ready-made download
+
+It works on 64-bit Intel or AMD computers with Ubuntu 22.04 or newer (or a
+Linux of the same age). It is new in this version: it was checked on
+GitHub's build computers, but not yet with a real camera, so please
+[tell us](../../CONTRIBUTING.md#report-a-problem-or-share-how-it-went) how it
+went.
+
+1. Plug the camera into a **USB 3.0** port.
+2. Download `RealSense-Depth-Server-Linux-x64.tar.gz` from the project's
+   **Releases** page on GitHub (right side of the project page).
+3. In your Downloads folder, double-click the file and choose **Extract**
+   (or right-click it, **Extract Here**). You get a folder called
+   **RealSense Depth Server**. Move it wherever you like, for example to
+   your home folder.
+4. Open the folder, right-click on an empty spot and choose **Open in
+   Terminal**. Type this line and press Enter (once):
+
+   ```bash
+   ./install-desktop-icon.sh
+   ```
+
+   It ends with `Done. Double click "RealSense Depth Server" on the desktop`.
+5. Double-click **RealSense Depth Server** on your desktop, or press the
+   Super key and type `depth`. If Ubuntu asks, right-click the icon and
+   choose **Allow Launching** first.
+6. A terminal window opens and shows what to write in sketches, usually
+   `String SERVER = "auto";`. Leave it open while you work. To stop the
+   server, close the window or press Ctrl+C.
+
+Then write your first sketch: [first-sketch.md](../first-sketch.md). The
+settings are in `_internal/config.toml` inside the folder (see step 11
+below for what they do). If you move the folder, run step 4 again.
+
+## The full setup
+
+This part takes you from a fresh Ubuntu installation to a running depth
 server that starts by itself when the computer boots. It needs
 **Ubuntu 24.04 LTS or newer** (the server needs Python 3.11 or newer, and
 Ubuntu 22.04 has Python 3.10). Plan about 30 minutes.

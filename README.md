@@ -36,15 +36,15 @@ What you get:
 |--------------------------------|-------------|-------|
 | **Windows** | download `RealSense-Depth-Server-Windows.zip` from [Releases](https://github.com/chavarriajose/realsense-f200-processing/releases), extract it, double-click **RealSense Depth Server**. No driver, no password. | [docs/windows/setup.md](docs/windows/setup.md) |
 | **macOS** | download `RealSense-Depth-Server-macOS.zip` from [Releases](https://github.com/chavarriajose/realsense-f200-processing/releases), open the app, type your Mac password. | [docs/macos/setup.md](docs/macos/setup.md) |
-| **Linux** | a few terminal commands (below), then a desktop icon or automatic start at boot. | [docs/linux/setup.md](docs/linux/setup.md) |
+| **Linux** | download `RealSense-Depth-Server-Linux-x64.tar.gz` from [Releases](https://github.com/chavarriajose/realsense-f200-processing/releases), extract it, run one command once to add a desktop icon. (New, not yet tried with a camera.) Or install it from the project files, with automatic start at boot. | [docs/linux/setup.md](docs/linux/setup.md) |
 
 **2. Run your first sketch**: install Processing 4, open
 `processing/example01_show_depth` and press Run. The sketch finds the server
 on the network by itself (`String SERVER = "auto";`). Step by step, for Mac,
 Windows and Linux: [docs/first-sketch.md](docs/first-sketch.md).
 
-The quick version for Linux (Ubuntu 24.04 LTS or newer, camera in a USB 3.0
-port):
+For a Linux computer that several people share, the full setup in a
+nutshell (Ubuntu 24.04 LTS or newer, camera in a USB 3.0 port):
 
 ```bash
 sudo apt update
@@ -63,7 +63,7 @@ python3 -m venv --system-site-packages .venv
 | `docs/`       | the guides: one folder each for `linux/`, `macos/` and `windows/`, plus the first sketch and the message format |
 | `processing/` | the example sketches for Processing 4                             |
 | `server/`     | the depth server (Python) and its settings, `config.toml`         |
-| `tools/`      | the live camera preview, a test client, and in `linux/`, `macos/` and `windows/` the scripts that build the ready-made programs |
+| `tools/`      | the live camera preview, a test client, and in `linux/`, `macos/` and `windows/` the scripts that build the ready-made downloads |
 
 ## Tested on
 
@@ -93,6 +93,8 @@ the OSC values, all five examples, and starting and stopping the server.
 - **Many sketches on Wi-Fi:** each sketch receiving exact depth (`depth16`)
   uses about 1.4 MB per second, the grayscale picture (`depth8`) about
   0.6 MB per second.
+- **Linux download:** new in this version and not yet tried with a camera.
+  It needs a 64-bit Intel or AMD computer with Ubuntu 22.04 or newer.
 - **Windows on ARM** and Raspberry Pi are not supported (yet).
 
 ## Good to know

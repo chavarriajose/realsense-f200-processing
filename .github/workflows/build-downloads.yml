@@ -58,7 +58,7 @@ jobs:
           path: dist/RealSense-Depth-Server-Windows.zip
 
   macos:
-    runs-on: macos-14
+    runs-on: macos-15
     env:
       # The Mac app must be "universal" (Apple Silicon and Intel), which needs
       # the universal2 Python from python.org (see tools/macos/build_macos_app.sh).

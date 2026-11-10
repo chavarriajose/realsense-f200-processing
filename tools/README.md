@@ -7,7 +7,7 @@ camera works before starting the server.
 |-------------------|-----------------------------------------------------------------|
 | `preview.py`      | live camera preview (Linux, Mac and Windows)                    |
 | `test_client.py`  | checks the server without Processing (any computer)             |
-| `linux/`          | desktop icon for the server, first test script, sketch tests    |
+| `linux/`          | builds the Linux download, desktop icon for the server, first test script, sketch tests |
 | `macos/`          | builds the Mac app, sketch tests on a Mac                       |
 | `windows/`        | builds the Windows program, sketch tests on Windows             |
 | `collect_licenses.py` | used by the build scripts: puts all license texts into the program |
@@ -165,6 +165,20 @@ The last line should be `OK: /full/path/to/example01.png`. If the sketch
 could not save a screenshot (for example because the server is not running)
 it prints `FAILED: no screenshot saved` instead.
 
+### build_linux_bundle.sh: build the Linux download
+
+For developers. Builds `dist/RealSense-Depth-Server-Linux-x64.tar.gz`: the
+server with everything it needs, a start script and a one-time desktop icon
+installer (the files in `tools/linux/linux_bundle/`). It needs Python 3.11 or
+newer with the venv module and an internet connection:
+
+```bash
+tools/linux/build_linux_bundle.sh
+```
+
+It counts its steps from `1/5` to `5/5`. The download only works on Linux
+versions about as new as the one it was built on, or newer.
+
 ## Mac tools (`tools/macos/`)
 
 ### build_macos_app.sh: build the Mac app
@@ -232,3 +246,21 @@ The sketch finds the server by itself (`"auto"`). To test a typed address
 instead, add `-Server 127.0.0.1`. If Processing is somewhere else, add
 `-Processing "C:\path\to\processing-java.exe"`. The last line should be
 `OK: C:\full\path\to\example01.png`.
+
+## Building all downloads on GitHub
+
+You do not need a Mac, a Linux computer and a Windows PC to make the
+downloads: GitHub builds all three on its own computers, with the scripts
+above (see `.github/workflows/build-downloads.yml`).
+
+- **To test:** on the project page, open **Actions**, choose
+  **Build downloads** and click **Run workflow**. After about 10 minutes the
+  three files are at the bottom of that run's page, under **Artifacts**.
+  Nothing is published.
+- **For a release:** push a version tag, for example `git tag v0.9.1-beta`
+  and `git push origin v0.9.1-beta`. The files are then attached to the
+  release with that name (a draft pre-release is made if it does not exist
+  yet, ready for you to write the notes and publish).
+
+GitHub's computers have no camera: each build only checks that the program
+starts. Try each download once with a real F200 before calling it tested.
