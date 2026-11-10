@@ -5,9 +5,9 @@ write your first sketch.
 
 | Your camera is plugged into... | Read this |
 |--------------------------------|-----------|
-| a Linux computer (for example one that several people share) | [linux/setup.md](linux/setup.md): from a fresh Ubuntu to a server that starts at boot |
-| your own Mac | [macos/setup.md](macos/setup.md): the Mac app, first open, password, start and stop |
-| your own Windows PC | [windows/setup.md](windows/setup.md): the Windows program, first start, firewall, start and stop |
+| Linux | [linux/setup.md](linux/setup.md): from a fresh Ubuntu to a server that starts at boot |
+| macOS | [macos/setup.md](macos/setup.md): the Mac app, first open, password, start and stop |
+| Windows | [windows/setup.md](windows/setup.md): the Windows program, first start, firewall, start and stop |
 
 Then, on the computer you write sketches on (the same one or another one on
 the network): [first-sketch.md](first-sketch.md), install Processing and run
